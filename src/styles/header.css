@@ -1,0 +1,110 @@
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 14px 24px;
+  border-bottom: 1px solid #e5e7eb;
+  background: #ffffff;
+}
+
+.header.dark {
+  background: #0b1220;
+  border-bottom: 1px solid rgba(255,255,255,0.12);
+  color: white;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  font-weight: 900;
+  background: #2563eb;
+  color: white;
+}
+
+.title {
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 1.1;
+}
+
+.subtitle {
+  font-size: 12px;
+  opacity: 0.75;
+}
+
+.nav {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.nav a {
+  text-decoration: none;
+  font-weight: 700;
+  padding: 8px 10px;
+  border-radius: 10px;
+  color: #111827;
+}
+
+.header.dark .nav a {
+  color: white;
+}
+
+.nav a:hover {
+  background: #f3f4f6;
+}
+
+.header.dark .nav a:hover {
+  background: rgba(255,255,255,0.12);
+}
+
+.nav a.active {
+  background: #e5e7eb;
+}
+
+.header.dark .nav a.active {
+  background: rgba(255,255,255,0.20);
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.btn {
+  border: 0;
+  padding: 10px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 800;
+}
+
+.btnGhost {
+  background: #f3f4f6;
+  color: #111827;
+}
+
+.header.dark .btnGhost {
+  background: rgba(255,255,255,0.12);
+  color: white;
+}
+
+.btnPrimary {
+  background: #22c55e;
+  color: #06210f;
+}

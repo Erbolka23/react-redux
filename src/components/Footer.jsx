@@ -1,15 +1,12 @@
+import { useSelector } from 'react-redux'
+import '../styles/footer.css'
+
 export default function Footer() {
+  const theme = useSelector((state) => state.ui.theme)
+
   return (
-    <footer
-      style={{
-        padding: '15px',
-        marginTop: '40px',
-        background: '#0fc242',
-        borderTop: '2px solid #ccc',
-        textAlign: 'center',
-      }}
-    >
-      <p>Redux App © 2026</p>
+    <footer className={`footer ${theme === 'dark' ? 'dark' : ''}`}>
+      Kyrgyz Horizont © 2026 • React + Redux Toolkit
     </footer>
   )
 }
