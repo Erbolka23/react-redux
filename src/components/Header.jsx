@@ -19,6 +19,7 @@ export default function Header() {
 
       <nav className="nav">
         <NavLink to="/" end>Главная</NavLink>
+        <NavLink to="/tours">Туры</NavLink>
         <NavLink to="/about">О нас</NavLink>
         <NavLink to="/services">Услуги</NavLink>
         <NavLink to="/pricing">Цены</NavLink>
