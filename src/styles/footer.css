@@ -1,13 +1,14 @@
 .footer {
-  padding: 14px 24px;
-  border-top: 1px solid #e5e7eb;
-  background: #f9fafb;
+  width: 100vw;        /* 🔥 так же как header */
+  padding: 18px 24px;
   text-align: center;
+  border-top: 1px solid #e5e7eb;
+  background: #f8fafc;
   color: #111827;
 }
 
 .footer.dark {
   background: #0b1220;
   border-top: 1px solid rgba(255,255,255,0.12);
-  color: rgba(255,255,255,0.85);
+  color: white;
 }

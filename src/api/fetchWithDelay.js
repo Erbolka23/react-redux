@@ -1,8 +1,10 @@
-export async function fetchWithDelay(url, ms = 1200) {
-  await new Promise((resolve) => setTimeout(resolve, ms))
+export async function fetchWithDelay(url, delayMs = 800) {
+  await new Promise((r) => setTimeout(r, delayMs))
 
   const res = await fetch(url)
-  if (!res.ok) throw new Error(`Failed to load: ${url}`)
+  if (!res.ok) {
+    throw new Error(`Fetch error ${res.status} for ${url}`)
+  }
 
   return res.json()
 }

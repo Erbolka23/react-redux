@@ -1,32 +1,23 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom"
+import Layout from "./components/Layout.jsx"
 
-import Header from "./components/Header";
-import Footer from "./components/Footer";
-
-import Home from "./pages/Home";
-import About from "./pages/About";
-import Services from "./pages/Services";
-import Pricing from "./pages/Pricing";
-import Contact from "./pages/Contact";
-
-import "./styles/layout.css";
+import Home from "./pages/Home.jsx"
+import Tours from "./pages/Tours.jsx"
+import TourDetail from "./pages/TourDetail.jsx"
+import About from "./pages/About.jsx"
+import Contact from "./pages/Contact.jsx"
 
 export default function App() {
   return (
-    <div className="layout">
-      <Header />
-
-      <main className="content">
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/services" element={<Services />} />
-          <Route path="/pricing" element={<Pricing />} />
-          <Route path="/contact" element={<Contact />} />
-        </Routes>
-      </main>
-
-      <Footer />
-    </div>
-  );
+    <Routes>
+      <Route path="/" element={<Layout />}>
+        <Route index element={<Home />} />
+        <Route path="tours" element={<Tours />} />
+        <Route path="tours/:id" element={<TourDetail />} />
+        <Route path="about" element={<About />} />
+        <Route path="contact" element={<Contact />} />
+        <Route path="*" element={<div style={{ padding: 24 }}>Страница не найдена</div>} />
+      </Route>
+    </Routes>
+  )
 }

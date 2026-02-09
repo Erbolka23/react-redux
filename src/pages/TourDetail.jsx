@@ -13,36 +13,51 @@ export default function TourDetail() {
     setLoading(true)
     setError("")
 
-    fetchWithDelay("/data/tours.json", 900)
-      .then((data) => {
-        const found = data.find((x) => String(x.id) === String(id))
-        if (!found) throw new Error("Тур не найден")
-        if (mounted) setTour(found)
+    fetchWithDelay("/data/tours.json", 700)
+      .then((json) => {
+        if (!mounted) return
+        const found = (json.tours || []).find((t) => t.id === id)
+        setTour(found || null)
+        setLoading(false)
       })
-      .catch((e) => mounted && setError(e.message))
-      .finally(() => mounted && setLoading(false))
+      .catch((e) => {
+        if (!mounted) return
+        setError(e.message)
+        setLoading(false)
+      })
 
     return () => {
       mounted = false
     }
   }, [id])
 
-  if (loading) return <p>Загрузка детали...</p>
+  if (loading) return <p>Загрузка тура...</p>
   if (error) return <p>Ошибка: {error}</p>
+  if (!tour)
+    return (
+      <div>
+        <p>Тур не найден.</p>
+        <Link to="/tours">← Назад</Link>
+      </div>
+    )
 
   return (
     <section>
-      <h1>{tour.title} (DETAIL)</h1>
-      <p><b>Локация:</b> {tour.location}</p>
-      <p><b>Длительность:</b> {tour.days} дней</p>
-      <p><b>Цена:</b> ${tour.price}</p>
-      <p>{tour.description}</p>
+      <h1>{tour.title}</h1>
+      <p>
+        <b>Локация:</b> {tour.location}
+      </p>
+      <p>
+        <b>Дней:</b> {tour.days}
+      </p>
+      <p>
+        <b>Цена:</b> ${tour.price}
+      </p>
+      <p>
+        <b>Описание:</b> {tour.description}
+      </p>
 
-      <h3>Highlights</h3>
-      <ul>
-        {tour.highlights.map((h, i) => <li key={i}>{h}</li>)}
-      </ul>
-
+      <hr />
       <Link to="/tours">← Назад к списку</Link>
     </section>
   )

@@ -12,15 +12,16 @@ export default function Tours() {
     setLoading(true)
     setError("")
 
-    fetchWithDelay("/data/tours.json", 1200)
-      .then((data) => {
-        if (mounted) setTours(data)
+    fetchWithDelay("/data/tours.json", 900)
+      .then((json) => {
+        if (!mounted) return
+        setTours(json.tours || [])
+        setLoading(false)
       })
       .catch((e) => {
-        if (mounted) setError(e.message)
-      })
-      .finally(() => {
-        if (mounted) setLoading(false)
+        if (!mounted) return
+        setError(e.message)
+        setLoading(false)
       })
 
     return () => {
@@ -36,8 +37,8 @@ export default function Tours() {
       <h1>Туры (LIST)</h1>
       <ul>
         {tours.map((t) => (
-          <li key={t.id} style={{ marginBottom: 10 }}>
-            <b>{t.title}</b> — {t.days} дн. — ${t.price} — {t.location}{" "}
+          <li key={t.id}>
+            <b>{t.title}</b> — {t.days} дн. — ${t.price} — {t.location} —{" "}
             <Link to={`/tours/${t.id}`}>Подробнее</Link>
           </li>
         ))}
