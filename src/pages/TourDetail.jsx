@@ -1,38 +1,30 @@
-import { useEffect, useState } from "react"
-import { Link, useParams } from "react-router-dom"
-import { fetchWithDelay } from "../api/fetchWithDelay"
+import { useEffect } from "react"
+import { Link, useNavigate, useParams } from "react-router-dom"
+import { useDispatch, useSelector } from "react-redux"
+import { deleteTour, fetchTours } from "../features/tours/toursSlice"
 
 export default function TourDetail() {
   const { id } = useParams()
-  const [tour, setTour] = useState(null)
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState("")
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const { items, loading, error } = useSelector((s) => s.tours)
 
   useEffect(() => {
-    let mounted = true
-    setLoading(true)
-    setError("")
+    if (items.length === 0) dispatch(fetchTours())
+  }, [dispatch, items.length])
 
-    fetchWithDelay("/data/tours.json", 700)
-      .then((json) => {
-        if (!mounted) return
-        const found = (json.tours || []).find((t) => t.id === id)
-        setTour(found || null)
-        setLoading(false)
-      })
-      .catch((e) => {
-        if (!mounted) return
-        setError(e.message)
-        setLoading(false)
-      })
+  const tour = items.find((t) => t.id === id)
 
-    return () => {
-      mounted = false
-    }
-  }, [id])
+  function handleDelete() {
+    const ok = confirm("Удалить этот тур?")
+    if (!ok) return
+    dispatch(deleteTour(id))
+    navigate("/tours")
+  }
 
-  if (loading) return <p>Загрузка тура...</p>
-  if (error) return <p>Ошибка: {error}</p>
+  if (loading && items.length === 0) return <p>Загрузка тура...</p>
+  if (error && items.length === 0) return <p>Ошибка: {error}</p>
+
   if (!tour)
     return (
       <div>
@@ -58,7 +50,12 @@ export default function TourDetail() {
       </p>
 
       <hr />
-      <Link to="/tours">← Назад к списку</Link>
+
+      <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
+        <Link to="/tours">← Назад к списку</Link>
+        <Link to={`/tours/${tour.id}/edit`}>Редактировать</Link>
+        <button onClick={handleDelete}>Удалить</button>
+      </div>
     </section>
   )
 }
