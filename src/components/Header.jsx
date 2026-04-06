@@ -1,11 +1,14 @@
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'  // 👈 добавили useNavigate
 import { useDispatch, useSelector } from 'react-redux'
 import { toggleTheme } from '../features/ui/uiSlice'
+import { logout } from '../features/auth/authSlice'       // 👈 добавили logout
 import '../styles/header.css'
 
 export default function Header() {
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   const theme = useSelector((state) => state.ui.theme)
+  const user = useSelector((state) => state.auth.user)   // 👈 смотрим залогинен ли
 
   return (
     <header className={`header ${theme === 'dark' ? 'dark' : ''}`}>
@@ -30,7 +33,26 @@ export default function Header() {
         <button className="btn btnGhost" onClick={() => dispatch(toggleTheme())}>
           Тема: {theme === 'light' ? 'свет' : 'тьма'}
         </button>
-        <button className="btn btnPrimary">Войти</button>
+
+        {/* 👇 если залогинен — показываем имя и кнопку выйти */}
+        {user ? (
+          <>
+            <span style={{ marginRight: 8 }}>👤 {user.login}</span>
+            <button
+              className="btn btnPrimary"
+              onClick={() => dispatch(logout())}
+            >
+              Выйти
+            </button>
+          </>
+        ) : (
+          <button
+            className="btn btnPrimary"
+            onClick={() => navigate('/login')}  // 👈 теперь ведёт на /login
+          >
+            Войти
+          </button>
+        )}
       </div>
     </header>
   )
