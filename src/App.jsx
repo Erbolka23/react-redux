@@ -7,9 +7,11 @@ import TourDetail from "./pages/TourDetail.jsx"
 import TourForm from "./pages/TourForm.jsx"
 import About from "./pages/About.jsx"
 import Contact from "./pages/Contact.jsx"
-import Login from "./pages/Login.jsx"           // 👈 новое
-import Register from "./pages/Register.jsx"     // 👈 новое
-import ProtectedRoute from "./components/ProtectedRoute.jsx" // 👈 новое
+import Login from "./pages/Login.jsx"
+import Register from "./pages/Register.jsx"
+import ProtectedRoute from "./components/ProtectedRoute.jsx"
+import Todos from "./pages/Todos.jsx"           // 👈 новое
+import TodoDetail from "./pages/TodoDetail.jsx" // 👈 новое
 
 export default function App() {
   return (
@@ -18,8 +20,6 @@ export default function App() {
         <Route index element={<Home />} />
 
         <Route path="tours" element={<Tours />} />
-
-        {/* 👇 tours/new и edit — только для залогиненных */}
         <Route path="tours/new" element={
           <ProtectedRoute>
             <TourForm />
@@ -34,10 +34,12 @@ export default function App() {
 
         <Route path="about" element={<About />} />
         <Route path="contact" element={<Contact />} />
-
-        {/* 👇 новые страницы */}
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />
+
+        {/* 👇 Todo маршруты */}
+        <Route path="todos" element={<Todos />} />
+        <Route path="todos/:id" element={<TodoDetail />} />
 
         <Route path="*" element={<div style={{ padding: 24 }}>Страница не найдена</div>} />
       </Route>
