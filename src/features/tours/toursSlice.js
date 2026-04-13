@@ -17,9 +17,7 @@ function loadFromStorage() {
 function saveToStorage(tours) {
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(tours))
-  } catch {
-    // ignore
-  }
+  } catch {}
 }
 
 export const fetchTours = createAsyncThunk("tours/fetchTours", async () => {
@@ -55,9 +53,38 @@ const toursSlice = createSlice({
       }
     },
     deleteTour(state, action) {
-      const id = action.payload
-      state.items = state.items.filter((t) => t.id !== id)
+      state.items = state.items.filter((t) => t.id !== action.payload)
       saveToStorage(state.items)
+    },
+
+    // 👇 1. Лайк
+    toggleLike(state, action) {
+      const tour = state.items.find((t) => t.id === action.payload)
+      if (tour) {
+        tour.liked = !tour.liked
+        saveToStorage(state.items)
+      }
+    },
+
+    // 👇 2. Избранное
+    toggleFavorite(state, action) {
+      const tour = state.items.find((t) => t.id === action.payload)
+      if (tour) {
+        tour.favorite = !tour.favorite
+        saveToStorage(state.items)
+      }
+    },
+
+    // 👇 3. Добавление оценки
+    rateTour(state, action) {
+      const { id, rating } = action.payload
+      const tour = state.items.find((t) => t.id === id)
+      if (tour) {
+        // ratings — массив оценок, например [4, 5, 3]
+        if (!tour.ratings) tour.ratings = []
+        tour.ratings.push(rating)
+        saveToStorage(state.items)
+      }
     },
   },
   extraReducers: (builder) => {
@@ -77,5 +104,5 @@ const toursSlice = createSlice({
   },
 })
 
-export const { addTour, updateTour, deleteTour } = toursSlice.actions
+export const { addTour, updateTour, deleteTour, toggleLike, toggleFavorite, rateTour } = toursSlice.actions
 export default toursSlice.reducer
